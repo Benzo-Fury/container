@@ -8,7 +8,7 @@ import type {
 import type { ConstructorOptions } from "./types/ConstructorOptions.js";
 import type { ServiceMap } from "./types/ServiceMap.js";
 import { fileURLToPath, pathToFileURL } from "url";
-import { join, resolve } from "path";
+import { join } from "path";
 
 /**
  * The service container.
@@ -182,10 +182,12 @@ export class Container {
    * Auto loads services from a specified directory.
    * @param directory Expected to be the full absolute path to the directory.
    */
-  public async autoLoad(dir: string): Promise<void> {
+  public async autoLoad(directoryUrl: string): Promise<void> {
     // Creating modules array.
     const modules: AutoLoadServiceOptions[] = [];
-    const directoryPath = resolve(process.cwd(), dir);
+
+    // Convert URL to file path for readdirSync
+    const directoryPath = fileURLToPath(directoryUrl);
 
     // Getting all files to load.
     const files = readdirSync(directoryPath).filter(
