@@ -1,6 +1,6 @@
 {
   "name": "neos-container",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "type": "module",
   "description": "",
   "main": "dist/index.js",
