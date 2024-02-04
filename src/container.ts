@@ -186,17 +186,14 @@ export class Container {
     // Creating modules array.
     const modules: AutoLoadServiceOptions[] = [];
 
-    // Convert URL to file path for readdirSync
-    const directoryPath = fileURLToPath(directoryUrl);
-
     // Getting all files to load.
-    const files = readdirSync(directoryPath).filter(
+    const files = readdirSync(directoryUrl).filter(
       (file) => file.endsWith(".js") && !file.startsWith("!")
     );
 
     // Looping through services.
     for (const file of files) {
-      const filePath = join(directoryPath, file);
+      const filePath = join(directoryUrl, file);
 
       // Creating the module url.
       const moduleFileUrl = pathToFileURL(filePath).href;
