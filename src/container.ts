@@ -110,12 +110,29 @@ export class Container {
         return reject(new Error(`Service ${name} has not been registered.`));
       }
 
-      // Checking if service is a constructor
-      if (typeof serviceOptions.service === "function") {
-        return resolve(
-          new serviceOptions.service(serviceOptions.options?.inject ?? null)
+      // Checking service is lazy loaded.
+      if (
+        serviceOptions.options?.lazyLoad &&
+        typeof serviceOptions.service === "function"
+      ) {
+        // Creating the service.
+        const newService = new serviceOptions.service(
+          serviceOptions.options?.inject ?? null
         );
+
+        // Resetting the service in the cache.
+        this.services.set(name as string, {
+          service: newService,
+          options: serviceOptions.options,
+        });
+
+        // Returning the service.
+        return resolve(newService);
+      } else if(serviceOptions.options?.isFunction && typeof serviceOptions.service === "function") {
+        // Else checking if service is function.
+        return resolve(serviceOptions.service(serviceOptions.options?.inject ?? null));
       } else {
+        // Else returning.
         return resolve(serviceOptions.service);
       }
     });
