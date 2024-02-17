@@ -128,9 +128,14 @@ export class Container {
 
         // Returning the service.
         return resolve(newService);
-      } else if(serviceOptions.options?.isFunction && typeof serviceOptions.service === "function") {
+      } else if (
+        serviceOptions.options?.isFunction &&
+        typeof serviceOptions.service === "function"
+      ) {
         // Else checking if service is function.
-        return resolve(serviceOptions.service(serviceOptions.options?.inject ?? null));
+        return resolve(
+          serviceOptions.service(serviceOptions.options?.inject ?? null)
+        );
       } else {
         // Else returning.
         return resolve(serviceOptions.service);
@@ -205,7 +210,10 @@ export class Container {
 
     // Getting all files to load.
     const files = readdirSync(directoryUrl).filter(
-      (file) => (file.endsWith(".js") || file.endsWith(".ts")) && !file.startsWith("!")
+      (file) =>
+        (file.endsWith(".js") || file.endsWith(".ts")) &&
+        !file.endsWith("d.ts") &&
+        !file.startsWith("!")
     );
 
     // Looping through services.
