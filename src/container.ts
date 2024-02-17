@@ -205,7 +205,7 @@ export class Container {
 
     // Getting all files to load.
     const files = readdirSync(directoryUrl).filter(
-      (file) => file.endsWith(".js") && !file.startsWith("!")
+      (file) => (file.endsWith(".js") || file.endsWith(".ts")) && !file.startsWith("!")
     );
 
     // Looping through services.
